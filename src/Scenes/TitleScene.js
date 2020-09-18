@@ -6,16 +6,14 @@ export default class TitleScene extends Phaser.Scene {
     super('Title');
   }
  
-  preload () {
-  }
- 
+
   create () {    
   // Game
   this.gameButton = new Button(this, config.width/2, config.height/2 - 100, 'blueButton1', 'blueButton2', 'Play', 'Game');
  
   // Options
   this.optionsButton = new Button(this, config.width/2, config.height/2, 'blueButton1', 'blueButton2', 'Options', 'Options');
- 
+  
   // Credits
   this.creditsButton = new Button(this, config.width/2, config.height/2 + 100, 'blueButton1', 'blueButton2', 'Credits', 'Credits');
  
@@ -26,5 +24,6 @@ export default class TitleScene extends Phaser.Scene {
     this.model.bgMusicPlaying = true;
     this.sys.game.globals.bgMusic = this.bgMusic;
   }
+  
   }
 };
