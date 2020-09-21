@@ -8,17 +8,29 @@ export default class WorldScene extends Phaser.Scene {
     
     create () {    
     //map
+        this.add.image(400,300,'bg')
+
     this.platforms = this.physics.add.staticGroup();
-    this.platforms.create(400, 568, 'map').setScale(2).refreshBody();
-    this.platforms.create(600, 400, 'map');
-    this.platforms.create(50, 250, 'map');
-    this.platforms.create(750, 220, 'map');
-    this.platforms.create(1000, 220, 'map');
+    this.platforms.create(400, 568, 'map').setScale(10,0.5).refreshBody();
+    this.platforms.create(600, 400, 'map').setScale(3,0.2).refreshBody();
+    this.platforms.create(50, 250, 'map').setScale(2,0.2).refreshBody();
+    this.platforms.create(750, 220, 'map').setScale(4,0.2).refreshBody();
+    this.platforms.create(200, 300, 'map').setScale(1,0.2).refreshBody();
 
     this.player = this.physics.add.sprite(100, 450, 'player');
     this.player.setBounce(0.2);
     this.player.setCollideWorldBounds(true);
 
+        this.bullets = this.physics.add.sprite(100,500,'bullets')
+        this.bullets.setCollideWorldBounds(true);
+    this.cowboy = this.physics.add.sprite(780, 400, 'cowboy',{frame:2});
+    this.cowboy.flipX=true
+    this.cowboy.setBounce(0.2);
+    this.cowboy.setCollideWorldBounds(true);
+
+    this.cameras.main.setBounds(0, 0, 800, 400);
+    this.cameras.main.startFollow(this.player);
+    this.cameras.main.roundPixels = true;
     this.anims.create({
         key: 'left',
         frames: this.anims.generateFrameNumbers('player', {
@@ -42,14 +54,21 @@ export default class WorldScene extends Phaser.Scene {
         frameRate: 10,
         repeat: -1
     });
-    
+    this.anims.create({
+        key:'shoot',
+        frames:this.anims.generateFrameNumbers('cowboy',
+        {frames:[0,14,15,16]}),
+        frameRate:10,
+        repeat:-1
+    })
     this.coins = this.physics.add.group({
         key: 'coins',
-        repeat: 22,
-        setXY: { x: 2, y: 0, stepX: 40 },
+        repeat:10,
+        setXY: { x: 10, y: 2, stepX: 40 },
         setScale: { x: 0.1, y: 0.1}
     });
     console.log(this.coins)
+    this.cowboy.play('shoot')
     this.coins.children.iterate(function (child) {
 
         //  Give each coin a slightly different bounce
@@ -61,10 +80,10 @@ this.scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#f
     //  Collide the player and the coins with the platforms
     this.physics.add.collider(this.player, this.platforms);
     this.physics.add.collider(this.coins, this.platforms);
-
+    this.physics.add.collider(this.cowboy, this.platforms);
     //  Checks to see if the this.player overlaps with any of the coins, if he does call the collectStar function
     this.physics.add.overlap(this.player, this.coins, this.collectCoins, null, this);
-
+    this.physics.add.overlap(this.cowboy,this.player, this.die, null, this);
     
 }
 
@@ -90,6 +109,11 @@ collectCoins (player, coin)
 
     }
 }
+die(){
+    this.score = 0
+    this.scoreText.setText('Score: ' + this.score);
+    this.player.disableBody(true, true)
+}
 update(){
     let cursors = this.input.keyboard.createCursorKeys();
     if (cursors.left.isDown)
@@ -110,8 +134,8 @@ update(){
 
         this.player.anims.play('turn');
     }
-    //&& this.player.body.touching.down
-    if (cursors.up.isDown )
+    
+    if (cursors.up.isDown && this.player.body.touching.down )
     {
         this.player.setVelocityY(-330);
     }
