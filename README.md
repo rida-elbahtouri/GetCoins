@@ -91,4 +91,4 @@ Give a ⭐️ if you like this project!
 
 - <a href="https://www.theodinproject.com/" target="_blank">The Odin Project</a>
 
-- <a href="https://www.opengameart.org" target="_blank">The Odin Project</a>
+- <a href="https://www.opengameart.org" target="_blank">Opengameart</a>
