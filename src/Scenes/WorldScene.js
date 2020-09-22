@@ -1,5 +1,4 @@
-import "phaser"
-import config from "../Config/config"
+import Phaser from 'phaser';
 export default class WorldScene extends Phaser.Scene {
     constructor () {
       super('World');
@@ -135,7 +134,6 @@ collectCoins (player, coin)
 
         });
 
-        var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
 
     }
 }

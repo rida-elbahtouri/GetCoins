@@ -1,5 +1,4 @@
-import Phaser from 'phaser';;
-import { Physics } from 'phaser';
+import Phaser from 'phaser';
 
 export default {
   type: Phaser.AUTO,

@@ -1,5 +1,5 @@
 	
-import Phaser from 'phaser';;
+import Phaser from 'phaser';
 
 	
 import Button from '../Objects/Button';
@@ -23,13 +23,12 @@ this.model = this.sys.game.globals.model;
     this.soundButton.setInteractive();
      
     this.musicButton.on('pointerdown', function () {
-        this.model.musicOn = !this.model.musicOn;
+      this.model.musicOn = !this.model.musicOn;
       this.updateAudio();
     }.bind(this));
      
-    this.soundButton.on('pointerdown', function () {
-     	
-this.model.soundOn = !this.model.soundOn;
+    this.soundButton.on('pointerdown', function () {    	
+    this.model.soundOn = !this.model.soundOn;
       this.updateAudio();
     }.bind(this));
      
