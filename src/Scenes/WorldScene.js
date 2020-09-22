@@ -23,17 +23,13 @@ export default class WorldScene extends Phaser.Scene {
     this.player.setBounce(0.2);
     this.player.setCollideWorldBounds(true);
 
-    // this.bullets = this.add.group()
-    // this.createBullet(this.bullets)
     this.cowboy = this.physics.add.sprite(780, 400, 'cowboy',{frame:2});
     this.cowboy.flipX=true
     this.cowboy.setBounce(0.2);
     this.cowboy.setCollideWorldBounds(true);
 
     
-    this.cameras.main.setBounds(0, 0, 800, 400);
-    this.cameras.main.startFollow(this.player);
-    this.cameras.main.roundPixels = true;
+
     this.anims.create({
         key:'fire',
         frames:this.anims.generateFrameNumbers('bullets',{
@@ -81,23 +77,21 @@ export default class WorldScene extends Phaser.Scene {
         setXY: { x: 10, y: 2, stepX: 40 },
         setScale: { x: 0.1, y: 0.1}
     });
-    console.log(this.coins)
     this.bullets = this.physics.add.group()
     this.cowboy.play('shoot')
-    //this.bullets.play('fire')
+
     this.coins.children.iterate(function (child) {
 
-        //  Give each coin a slightly different bounce
         child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
 
     });
 this.scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#fff' });
 
-    //  Collide the player and the coins with the platforms
+
     this.physics.add.collider(this.player, this.platforms);
     this.physics.add.collider(this.coins, this.platforms);
     this.physics.add.collider(this.cowboy, this.platforms);
-    //  Checks to see if the this.player overlaps with any of the coins, if he does call the collectStar function
+
     this.physics.add.overlap(this.player, this.coins, this.collectCoins, null, this);
     this.physics.add.overlap(this.cowboy,this.player, this.die, null, this);
    
@@ -106,24 +100,22 @@ this.scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#f
    
 }
 
+
 createBullet(){
     
     this.bullets.createMultiple({ 
         key:'bullets',frame:96,setXY:{x:780,y:500}
     })
-    this.bullets.children.iterate((sp)=>{
-        console.log(sp)
-    })
     this.bullets.children.iterate((child)=> {
         this.physics.add.collider(this.bullets, this.platforms);
-        //  Give each coin a slightly different bounce
+
         child.play('fire')
         
             this.physics.add.overlap( child,this.player, this.die, null, this);
 
     })
-    //this.bullets = this.physics.add.sprite(100,500,'bullets',96).play('fire')
-
+ 
+    
     
 }
 collectCoins (player, coin)
@@ -132,7 +124,6 @@ collectCoins (player, coin)
 
     //  Add and update the score
     this.score += 10;
-    console.log(this.score)
     this.scoreText.setText('Score: ' + this.score);
 
     if (this.coins.countActive(true) === 0)
@@ -149,8 +140,12 @@ collectCoins (player, coin)
     }
 }
 die(){
-    this.score = 0
-    this.scoreText.setText('Score: ' + this.score);
+   // this.sys.game.globals.model.
+   this.model = this.sys.game.globals.model;
+    this.model.score = this.score;
+   this.scene.start('GameOver')
+    // this.score = 0
+    // this.scoreText.setText('Score: ' + this.score);
     this.player.disableBody(true, true)
 }
 
@@ -194,10 +189,14 @@ update(){
         if (this.time.now - this.shouting > 10) {
             this.bullets.children.iterate( (child)=> {
                 child.x += Phaser.Math.Between(-4, -2)
-                child.y+= Phaser.Math.Between(-4, 3)
-               
+                child.y+= Phaser.Math.Between(-4, 2)
+                  if(child.x-16 <=this.player.x && child.x+16 >=this.player.x){
+                      if(child.y-16 <=this.player.y && child.y+16 >=this.player.y){
+                          this.die()
+                      }
+                      
+                  }
             })
-          
              this.shouting = this.time.now;
             }
 }

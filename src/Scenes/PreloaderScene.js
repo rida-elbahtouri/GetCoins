@@ -93,13 +93,15 @@ export default class PreloaderScene extends Phaser.Scene {
   this.load.image('bg','assets/bg.png')
   this.load.spritesheet('cowboy','assets/cowboy.png', { frameWidth: 45, frameHeight: 44 })
   this.load.spritesheet('bullets','assets/bullets.png', { frameWidth: 32, frameHeight: 32 })
-  
+  this.load.image('up', 'assets/up.png');
+  this.load.image('left', 'assets/left.png');
+  this.load.image('right', 'assets/right.png');
   }
 	
 
  
 ready () {
-    this.scene.start('World')
+    this.scene.start('Title')
   this.readyCount++;
   if (this.readyCount === 2) {
     this.scene.start('Title');
