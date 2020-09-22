@@ -1,8 +1,8 @@
 import Phaser from 'phaser';
 import Button from '../Objects/Button';
 import config from '../Config/config';
-import { save,get } from '../Objects/apiScore';
-
+import { save} from '../Objects/apiScore';
+import 'regenerator-runtime';
 export default class GameOverScene extends Phaser.Scene {
   constructor() {
     super({ key: 'GameOver' });
@@ -18,7 +18,7 @@ export default class GameOverScene extends Phaser.Scene {
     this.load.image('bg', 'assets/bg.png');
   }
 
-  create() {
+  async create() {
     const user = this.sys.game.globals.model.userName;
 
     this.add.image(this.game.config.width * 0.5, 240, 'bg').setScale(0.35);
@@ -31,7 +31,7 @@ export default class GameOverScene extends Phaser.Scene {
         align: 'center',
       });
 
-    save(this.model.userName, this.model.score);
+    await save(this.model.userName, this.model.score);
 
     this.gameButton = new Button(this, 400, (config.height / 2) + 170,
       'blueButton1', 'blueButton2', 'Submit', 'Score');

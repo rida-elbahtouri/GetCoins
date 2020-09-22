@@ -1,4 +1,4 @@
-import 'phaser';
+import Phaser from 'phaser';;
 
 export default class PreloaderScene extends Phaser.Scene {
   constructor () {
@@ -108,4 +108,4 @@ ready () {
   }
 }
 
-};
+}

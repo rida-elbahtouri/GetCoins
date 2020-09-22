@@ -8,10 +8,9 @@ export default class WorldScene extends Phaser.Scene {
     
     create () {    
     //map
-        this.add.image(400,300,'bg')
+    this.add.image(400,300,'bg')
     this.tick =  this.time.now;
     this.shouting = this.time.now
-    console.log(this.time.now)
     this.platforms = this.physics.add.staticGroup();
     this.platforms.create(400, 568, 'map').setScale(10,0.5).refreshBody();
     this.platforms.create(600, 400, 'map').setScale(3,0.2).refreshBody();
@@ -94,7 +93,8 @@ this.scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#f
 
     this.physics.add.overlap(this.player, this.coins, this.collectCoins, null, this);
     this.physics.add.overlap(this.cowboy,this.player, this.die, null, this);
-   
+    
+    this.cursors = this.input.keyboard.createCursorKeys();
     this.bullets = this.add.group()
 
    
@@ -140,12 +140,9 @@ collectCoins (player, coin)
     }
 }
 die(){
-   // this.sys.game.globals.model.
    this.model = this.sys.game.globals.model;
     this.model.score = this.score;
    this.scene.start('GameOver')
-    // this.score = 0
-    // this.scoreText.setText('Score: ' + this.score);
     this.player.disableBody(true, true)
 }
 
@@ -156,14 +153,14 @@ shoot(){
 
 update(){
     
-    let cursors = this.input.keyboard.createCursorKeys();
-    if (cursors.left.isDown)
+    
+    if (this.cursors.left.isDown)
     {
         this.player.setVelocityX(-160);
 
         this.player.anims.play('left', true);
     }
-    else if (cursors.right.isDown)
+    else if (this.cursors.right.isDown)
     {
         this.player.setVelocityX(160);
 
@@ -176,7 +173,7 @@ update(){
         this.player.anims.play('turn');
     }
     
-    if (cursors.up.isDown && this.player.body.touching.down )
+    if (this.cursors.up.isDown && this.player.body.touching.down )
     {
         this.player.setVelocityY(-330);
     }
@@ -201,4 +198,4 @@ update(){
             }
 }
 
-  };
+  }
