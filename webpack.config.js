@@ -1,5 +1,6 @@
+/* eslint-disable */
 const path = require('path');
-
+const webpack = require('webpack');
 module.exports = {
   entry: {
     app: './src/index.js',
@@ -17,7 +18,7 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['env'],
+            presets: ['@babel/preset-env'],
           },
         },
       },
@@ -26,4 +27,11 @@ module.exports = {
   devServer: {
     contentBase: path.resolve(__dirname, 'dist'),
   },
+  plugins: [
+
+    new webpack.DefinePlugin({
+      'typeof CANVAS_RENDERER': JSON.stringify(true),
+      'typeof WEBGL_RENDERER': JSON.stringify(true),
+    }),
+  ],
 };
