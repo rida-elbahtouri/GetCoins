@@ -22,7 +22,10 @@ This project is a game build with javascript, when user can collect coins to get
 
 ### Design Process
 
-GetCoins design process started with the idea of creating a simple and beautiful RPG.  I got  inspired by  the RPG classic  the supermario. and thanks to opengameart.org  for posting all of this amazing spirites and tiels  used in the game.
+GetCoins design process started with the idea of creating a simple and beautiful RPG.  I got inspired by the RPG classic the supermario. and thanks to opengameart.org  for posting all of these amazing spirites and tiels  used in the game.
+
+the game entire map was built with Tiled on a 32 x 32 collection other than the cowboy that was built on 45 x 44   of squares.
+first I created player and coins to get scores then I added the fire so the player will have some obstacles to run from.
 
 ## Prerequisites
 
