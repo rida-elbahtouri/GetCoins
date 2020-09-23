@@ -1,8 +1,8 @@
 /* eslint-disable */
 
-import { get, save } from '../objects/apiScore';
+import { get, save } from '../Objects/apiScore';
 
-jest.mock('../objects/apiScore');
+jest.mock('../Objects/apiScore');
 
 describe('Score Api tests', () => {
   get.mockResolvedValue({
